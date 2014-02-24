@@ -31,16 +31,21 @@ public class MaximumSumSubSequence
         result.setSum(maxSum);
         int[] sumTillIndex = new int[array.length];
         sumTillIndex[0] = array[0];
+        int startIndex = -1;
         for (int i = 1; i < array.length; i++)
         {
             sumTillIndex[i] = max(sumTillIndex[i - 1] + array[i], array[i]);
             if (sumTillIndex[i] == array[i])
             {
-                result.setStartIndex(i);
+                // this marks the start of the range
+                startIndex = i;
             }
-            else
+            if (maxSum < sumTillIndex[i])
             {
+                // this marks the end of range which has max sum
+                result.setStartIndex(startIndex);
                 result.setEndIndex(i);
+                startIndex = -1;
             }
             maxSum = maxSum < sumTillIndex[i] ? sumTillIndex[i] : maxSum;
             result.setSum(maxSum);
@@ -60,6 +65,9 @@ public class MaximumSumSubSequence
         MaximumSumSubSequence maxSum = new MaximumSumSubSequence();
         System.out.println("Max sum=" + maxSum.maxSumSubSequenceResult(array));
         System.out.println("Max sum=" + maxSum.maxSumSubSequenceResult(new int[] { -1, 4, 5, -8, 10, -8, 30 }));
+        System.out.println("Max sum=" + maxSum.maxSumSubSequenceResult(new int[] { 50, -4, -5, -8, 10 }));
+        System.out.println("Max sum=" + maxSum.maxSumSubSequenceResult(new int[] { -1, -4, -5, 20, -10, -30 }));
+        System.out.println("Max sum=" + maxSum.maxSumSubSequenceResult(new int[] { -6, -4, -5, -1, -10, -30 }));
     }
 }
 
